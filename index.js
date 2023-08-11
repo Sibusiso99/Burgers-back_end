@@ -63,6 +63,29 @@ app.delete("/types/:id",(req,res) =>{
         }
     })
 })
+
+app.put("/types/:id",(req,res) =>{
+    const burgerId = req.params.id;
+    const query = "Update types set `name` = ?, `description` = ?,`price` = ?, `cover` = ? where id = ?"
+    
+   
+        const values = [
+            req.body.name,
+            req.body.description,
+            req.body.price,
+            req.body.cover
+        ];
+    
+
+    db.query(query,[...values,burgerId], (err,data) =>{
+        if(err){
+            return res.json(err)
+        }
+        else{
+            return res.json("Burger Updated")
+        }
+    })
+})
 /*app.post('/types', (req,res) => {
     const {name,description,price,cover} = req.body;
     db.query("insert into types set ?",{name:name,description:description,price:price,cover:cover},(error, res) =>{
