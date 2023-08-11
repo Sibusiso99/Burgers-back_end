@@ -1,6 +1,7 @@
 import express from "express"
 import mysql from "mysql"
 import cors from "cors"
+import helmet from "helmet";
 
 
 
@@ -16,6 +17,9 @@ const db = mysql.createConnection({
 
 app.use(express.json())
 app.use(cors())
+app.use(helmet());
+
+
 app.get("/", (req,res) =>{
     res.json("Hey Sibusiso Congratulations")
 })
@@ -44,6 +48,9 @@ app.post("/types", (req,res) =>{
     db.query(query,[values],(err,data) =>{
         if(err){
             return res.json(err)
+        }else if(!name || !description || !price || !cover)
+        {
+            return res.status(400).json({error: "Missing required fields"});
         }
         else{
             return res.json("Burger created")
@@ -80,10 +87,10 @@ app.put("/types/:id",(req,res) =>{
 
     db.query(query,[...values,burgerId], (err,data) =>{
         if(err){
-            return res.json(err)
+            return res.status(500).json({ error: "Eror creating Burger"});
         }
         else{
-            return res.json("Burger Updated")
+            return res.status(201).json({message: "Burger Created"});
         }
     })
 })
