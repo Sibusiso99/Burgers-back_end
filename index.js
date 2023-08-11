@@ -6,6 +6,7 @@ import cors from "cors"
 
 const app = express()
 
+//creating connection
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
