@@ -49,6 +49,20 @@ app.post("/types", (req,res) =>{
         }
     })
 })
+
+app.delete("/types/:id",(req,res) =>{
+    const burgerId = req.params.id;
+    const query = "Delete From types Where id = ?"
+
+    db.query(query,[burgerId], (err,data) =>{
+        if(err){
+            return res.json(err)
+        }
+        else{
+            return res.json("Burger Deleted")
+        }
+    })
+})
 /*app.post('/types', (req,res) => {
     const {name,description,price,cover} = req.body;
     db.query("insert into types set ?",{name:name,description:description,price:price,cover:cover},(error, res) =>{
